@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Character : MonoBehaviour {
 
@@ -35,9 +36,9 @@ public class Character : MonoBehaviour {
 	private float horizontalInput;
 	private bool isOnGround;
 	private Collider2D[] groundHitDetectionResults = new Collider2D[16];
-	//public LayerMask whatIsGround;
-	//private Checkpoint currentCheckpoint;
-
+    //public LayerMask whatIsGround;
+    //private Checkpoint currentCheckpoint;
+    public bool isDead;
 	void Start()
 	{
 		anim = GetComponent<Animator>();
@@ -49,30 +50,37 @@ public class Character : MonoBehaviour {
 		UpdateIsOnGround();
 		UpdateHorizontalInput();
 		HandleJumpInput();
-		//winText.text = "";
-		//SetCountText();
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Respawn();
+        }
+        //winText.text = "";
+        //SetCountText();
 
-		//if ((isOnGround || !doubleJump) && Input.GetKeyDown(KeyCode.Space))
-		//{
-		//    anim.SetBool("Ground", false);
-		//    rb2d.AddForce(new Vector2(0, jumpForce));
+        //if ((isOnGround || !doubleJump) && Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    anim.SetBool("Ground", false);
+        //    rb2d.AddForce(new Vector2(0, jumpForce));
 
-		//    if (!doubleJump && !isOnGround)
-		//        doubleJump = true;
-		//}
-	}
+        //    if (!doubleJump && !isOnGround)
+        //        doubleJump = true;
+        //}
+    }
 
-	private void FixedUpdate()
-	{
-		UpdatePhysicsMaterial();
-		Move();
-		anim.SetFloat("vSpeed", Mathf.Abs(rb2d.velocity.y));
-		float move = Input.GetAxis("Horizontal");
-		anim.SetFloat("speed", Mathf.Abs(move));
-		if (move > 0 && !facingRight)
-			Flip();
-		else if (move < 0 && facingRight)
-			Flip();
+    private void FixedUpdate()
+    {
+        if (!isDead)
+        {
+            UpdatePhysicsMaterial();
+        Move();
+        
+        float move = Input.GetAxis("Horizontal");
+     
+        if (move > 0 && !facingRight)
+            Flip();
+        else if (move < 0 && facingRight)
+            Flip();
+        }
 
 	}
 
@@ -123,7 +131,20 @@ public class Character : MonoBehaviour {
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+    public void KillPlayer()
+    {
+       isDead = true;
+        anim.SetBool("isDead", true);
 
+    }
+    public void Respawn()
+    {
+        isDead = false;
+        anim.SetBool("isDead", false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+        Debug.Log("respwaned");
+    }
 	//public void Respawn()
 	//{
 	//	if (currentCheckpoint == null)
