@@ -5,20 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class Hazard : MonoBehaviour
 {
+    public Vector2 Direction = new Vector2();
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected HazardState state;
+    public HazardState State
     {
-        if (collision.gameObject.CompareTag("Player"))
+        get { return state; }
+        set
         {
-            Debug.Log("Player entered hazard.");
-            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            Character player = collision.GetComponent<Character>();
-            player.KillPlayer();
+            if (this.state != value)
+            {
+                this.state = value;
 
+                switch (State)
+                {
+                    case HazardState.Spawning:
+                        break;
+                    case HazardState.Flying:
+                        break;
+                    case HazardState.Dead:
+                        break;
+                }
+            }
         }
-        else
-        {
-            Debug.Log("non-player has entered the hazard");
-        }
+
     }
+    public Hazard()
+    {
+        this.State = HazardState.Flying;
+    }
+
 }
