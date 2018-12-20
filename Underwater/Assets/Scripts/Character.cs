@@ -50,7 +50,7 @@ public class Character : MonoBehaviour {
 		UpdateIsOnGround();
 		UpdateHorizontalInput();
 		HandleJumpInput();
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Space) && isDead)
         {
             Respawn();
         }
@@ -74,12 +74,12 @@ public class Character : MonoBehaviour {
             UpdatePhysicsMaterial();
         Move();
         
-        float move = Input.GetAxis("Horizontal");
+        //float move = Input.GetAxis("Horizontal");
      
-        if (move > 0 && !facingRight)
-            Flip();
-        else if (move < 0 && facingRight)
-            Flip();
+        //if (move > 0 && !facingRight)
+        //    Flip();
+        //else if (move < 0 && facingRight)
+        //    Flip();
         }
 
 	}

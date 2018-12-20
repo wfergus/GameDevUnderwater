@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum HazardState { Spawning, Flying, Dead }
-public class HazardSprite : MonoBehaviour {
+public class HazardSprite : Hazard {
 
-
+    public GameObject Character;
     public HazardState State;
 
     protected Hazard hazard;

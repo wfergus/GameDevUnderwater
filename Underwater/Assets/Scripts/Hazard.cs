@@ -30,6 +30,21 @@ public class Hazard : MonoBehaviour
         }
 
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Debug.Log("Player entered hazard.");
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Character player = collision.GetComponent<Character>();
+            player.KillPlayer();
+
+        }
+        else
+        {
+            Debug.Log("non-player has entered the hazard");
+        }
+    }
     public Hazard()
     {
         this.State = HazardState.Flying;
